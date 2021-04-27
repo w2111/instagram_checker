@@ -1,14 +1,19 @@
 import sys, aiohttp, asyncio
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
+from sys.QtWidgets import *
+from sys.QtCore import *
 
 __author__ = 'Alan Baumgartner'
 
-class LoginDialog(QDialog):
+
+class App:
+     pass
+
+
+class LoginDialog(App):
     def __init__(self):
         super().__init__()
-        self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowFlags(self.windowFlags() ^ Qt.WindowContextHelpButtonHint)
+        self.setWindowModality(QLabel.ApplicationModal)
+        self.setWindowFlags(self.windowFlags() ^ QLabel.WindowContextHelpButtonHint)
         self.setWindowTitle('Login to Instagram')
         layout = QGridLayout()
 
@@ -19,7 +24,7 @@ class LoginDialog(QDialog):
 
         buttons = QDialogButtonBox(
             QDialogButtonBox.Ok | QDialogButtonBox.Cancel,
-            Qt.Horizontal, self)
+            QLabel.Horizontal, self)
 
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
@@ -40,9 +45,9 @@ class LoginDialog(QDialog):
     def getLoginInfo():
         dialog = LoginDialog()
         result = dialog.exec_()
-        return dialog.username_text.text(), dialog.password_text.text(), result == QDialog.Accepted
+        return dialog.username_text.text(), dialog.password_text.text(), result == App.Accepted
 
-class ImportDialog(QDialog):
+class ImportDialog(App):
     def __init__(self):
         super().__init__()
         self.setWindowFlags(self.windowFlags() ^ Qt.WindowContextHelpButtonHint)
@@ -72,9 +77,9 @@ class ImportDialog(QDialog):
     def getFileInfo():
         dialog = ImportDialog()
         result = dialog.exec_()
-        return dialog.file_text.text(), result == QDialog.Accepted
+        return dialog.file_text.text(), result == App.Accepted
 
-class ExportDialog(QDialog):
+class ExportDialog(App):
     def __init__(self):
         super().__init__()
         self.setWindowFlags(self.windowFlags() ^ Qt.WindowContextHelpButtonHint)
@@ -104,9 +109,9 @@ class ExportDialog(QDialog):
     def getFileInfo():
         dialog = ExportDialog()
         result = dialog.exec_()
-        return dialog.file_text.text(), result == QDialog.Accepted
+        return dialog.file_text.text(), result == App.Accepted
 
-class Checker(QThread):
+class Checker(App):
 
     #Signal Variables.
     update = pyqtSignal(object)
@@ -187,7 +192,7 @@ class Checker(QThread):
                     self.update.emit('Login Failed')
                     return False
 
-class App(QMainWindow):
+class App(App):
  
     def __init__(self):
 
@@ -330,3 +335,4 @@ if __name__ == '__main__':
     window = App()
     window.show()
     sys.exit(app.exec_())
+
